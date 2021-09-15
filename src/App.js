@@ -1,7 +1,6 @@
 import cities from 'cities-list'
 import { useState } from 'react'
 import { debounce } from 'lodash'
-import { DebounceInput } from 'react-debounce-input'
 
 const citiesArray = Object.keys(cities)
 
@@ -17,31 +16,20 @@ const App = () => {
   //   } else {
   //     setFilteredCities([])
   //   }
-  // }, 500)
+  // })
 
-
-  // let filterTimeout
-  // const doCityFilter = query => {
-  //   if (query) {
-  //     clearTimeout(filterTimeout)
-  //
-  //     filterTimeout = setTimeout(() => {
-  //       setFilteredCities(citiesArray.filter(
-  //         city => city.toLowerCase().includes(query.toLowerCase())
-  //       ))
-  //     }, 500)
-  //
-  //   } else {
-  //     setFilteredCities([])
-  //   }
-  // }
-
+  let filterTimeout
   const doCityFilter = query => {
-    console.log('====>', query)
     if (query) {
-      setFilteredCities(citiesArray.filter(
-        city => city.toLowerCase().includes(query.toLowerCase())
-      ))
+      // clearTimeout(filterTimeout)
+
+      filterTimeout = setTimeout(() => {
+        console.log('====>', 'hey')
+        setFilteredCities(citiesArray.filter(
+          city => city.toLowerCase().includes(query.toLowerCase())
+        ))
+      }, 500)
+
     } else {
       setFilteredCities([])
     }
@@ -52,20 +40,12 @@ const App = () => {
       <h1>Find your favourite cities</h1>
 
       <form className="mt-3 mb-5">
-        <DebounceInput
+        <input
+          type="text"
           className="px-2"
           placeholder="search here..."
-          minLength={1}
-          debounceTimeout={500}
           onChange={event => (doCityFilter(event.target.value))}
         />
-
-        {/*<input*/}
-        {/*  type="text"*/}
-        {/*  className="px-2"*/}
-        {/*  placeholder="search here..."*/}
-        {/*  onChange={event => (doCityFilter(event.target.value))}*/}
-        {/*/>*/}
       </form>
 
       <div>
