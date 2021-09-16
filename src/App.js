@@ -10,15 +10,12 @@ const App = () => {
   const debouncedFilter = useCallback(debounce(query =>
     setFilteredCities(citiesArray.filter(
       city => city.toLowerCase().includes(query?.toLowerCase())
-    )), 500), [])
+    )), 500), []
+  )
 
   const doCityFilter = query => {
-    if (query) {
-
-      debouncedFilter(query)
-    } else {
-      setFilteredCities([])
-    }
+    if (!query) return setFilteredCities([])
+    debouncedFilter(query)
   }
 
   return (
