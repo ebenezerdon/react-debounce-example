@@ -1,5 +1,5 @@
 import cities from 'cities-list'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import debounce from 'lodash.debounce'
 
 const citiesArray = Object.keys(cities)
@@ -7,18 +7,17 @@ const citiesArray = Object.keys(cities)
 const App = () => {
   const [filteredCities, setFilteredCities] = useState([])
 
-  const debouncedFilter = useCallback(debounce(query =>
-    setFilteredCities(citiesArray.filter(
-      city => city.toLowerCase().includes(query?.toLowerCase())
-    )), 500), [])
-
   const doCityFilter = query => {
-    if (query) {
+    if (!query) return setFilteredCities([])
 
-      debouncedFilter(query)
-    } else {
-      setFilteredCities([])
-    }
+    const debouncedFilter = debounce(() => {
+      console.log('====>', query)
+      setFilteredCities(citiesArray.filter(
+        city => city.toLowerCase().includes(query.toLowerCase())
+      ))
+    }, 500)
+
+    debouncedFilter()
   }
 
   return (
