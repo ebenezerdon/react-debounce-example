@@ -1,24 +1,18 @@
 import cities from 'cities-list'
 import { useState } from 'react'
+import { DebounceInput } from 'react-debounce-input'
 
 const citiesArray = Object.keys(cities)
 
 const App = () => {
   const [filteredCities, setFilteredCities] = useState([])
 
-  let filterTimeout
   const doCityFilter = query => {
-    clearTimeout(filterTimeout)
     if (!query) return setFilteredCities([])
 
-    filterTimeout = setTimeout(() => {
-      console.log('====>', query)
-      setFilteredCities(citiesArray.filter(
-        city => city.toLowerCase().includes(query.toLowerCase())
-      ))
-    }, 500)
-
-    return filterTimeout
+    setFilteredCities(citiesArray.filter(
+      city => city.toLowerCase().includes(query.toLowerCase())
+    ))
   }
 
   return (
@@ -26,10 +20,11 @@ const App = () => {
       <h1 className="mt-5">Find your favourite cities</h1>
 
       <form className="mt-3 mb-3">
-        <input
-          type="text"
+        <DebounceInput
           className="px-2"
           placeholder="search here..."
+          minLength={1}
+          debounceTimeout={500}
           onChange={event => (doCityFilter(event.target.value))}
         />
       </form>
