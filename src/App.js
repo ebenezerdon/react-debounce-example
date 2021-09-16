@@ -1,6 +1,6 @@
 import cities from 'cities-list'
 import { useCallback, useState } from 'react'
-import { debounce } from 'lodash'
+import debounce from 'lodash.debounce'
 
 const citiesArray = Object.keys(cities)
 
